@@ -1,187 +1,155 @@
-✅ design.md – Patient Document Portal
-1. Tech Stack Choices
-Q1. What frontend framework did you use and why?
-Chosen: React with Vite
-Reason:
+# 🏥 Patient Document Portal – Design Document
 
-React provides component-based architecture and reusability.
+---
 
-Vite offers faster development experience due to lightning-fast HMR and build speed.
+## 📌 1. Tech Stack Choices
 
-React has a large ecosystem and good community support.
+### Q1. What frontend framework did you use and why?
+- **Framework:** React with Vite
+- **Why:** React provides a modular, reusable component-based architecture. Vite offers blazing-fast development experience and optimized production builds.
 
-Bootstrap was used for styling to achieve responsive and clean UI quickly.
+### Q2. What backend framework did you choose and why?
+- **Framework:** Express.js (Node.js)
+- **Why:** Lightweight, fast, and perfect for building REST APIs with file handling using `multer`. Express integrates easily with MongoDB.
 
-Q2. What backend framework did you choose and why?
-Chosen: Express.js with Node.js
-Reason:
+### Q3. What database did you choose and why?
+- **Database:** MongoDB Atlas (NoSQL)
+- **Why:** Schema-flexible, cloud-hosted, easily integrates with Mongoose ODM. Ideal for storing dynamic file metadata like filename, size, and upload time.
 
-Lightweight and minimal web framework for Node.js.
+### Q4. If you were to support 1,000 users, what changes would you consider?
+- Use **cloud storage** like AWS S3 or Firebase instead of local disk
+- Add **authentication** (e.g., JWT or OAuth) for user-based document access
+- Use **Redis** or CDN caching for popular files
+- Implement **pagination and rate-limiting**
+- Set up **CI/CD** with auto-scaling deployment (Docker + Render/Vercel)
+- Add monitoring/logging using **Prometheus + Grafana**
 
-Middleware support and routing are easy to use.
+---
 
-Integrates well with MongoDB via Mongoose.
+## 🗂️ 2. Architecture Overview
 
-Easily supports file handling and REST API creation.
+### System Flow (Text Diagram):
 
-Q3. What database did you choose and why?
-Chosen: MongoDB Atlas (Cloud-hosted NoSQL)
-Reason:
+[User Browser]
+↓
+[React Frontend (Vite)]
+↓ API calls
+[Express Backend (Node.js)]
+↓ ↓
+[MongoDB Atlas] [Local File Storage (/uploads)]
 
-Schemaless flexibility, ideal for storing dynamic document metadata.
-
-Scalable and cloud-hosted with MongoDB Atlas.
-
-Seamless integration with Mongoose in Node.js backend.
-
-Suitable for JSON-style document structures.
-
-Q4. If you were to support 1,000 users, what changes would you consider?
-Use AWS S3 or Firebase Storage for file hosting instead of local storage.
-
-Use Redis or memory cache for frequently accessed documents.
-
-Implement pagination and lazy loading in document listing.
-
-Add authentication and rate limiting (e.g., JWT, OAuth).
-
-Use horizontal scaling with Docker and Nginx for load balancing.
-
-Add database indexing and monitoring tools (e.g., Prometheus, Grafana).
-
-2. Architecture Overview
-Flow Diagram (Simple Text-based)
-less
+markdown
 Copy
 Edit
-[User (Browser)]
-      |
-      v
-[Frontend: React + Vite]
-      |
-      v
-[Backend: Express.js API]
-      |
-      |--- POST /documents/upload --> [MongoDB Atlas + Local Storage]
-      |--- GET /documents           --> [MongoDB Atlas]
-      |--- GET /documents/:id       --> [Local Storage File Fetch]
-      |--- DELETE /documents/:id    --> [MongoDB + File System]
-Frontend ↔ Backend ↔ Database ↔ File System
-Frontend sends file via form-data.
 
-Backend stores file on local disk (/uploads) and metadata in MongoDB.
 
-On view/download, backend serves file path from disk.
+### Flow Summary:
+- Frontend handles file upload and viewing
+- Backend provides REST APIs to upload, retrieve, and delete documents
+- Files are stored on disk, metadata is stored in MongoDB Atlas
 
-On delete, backend removes both file and database entry.
+---
 
-3. API Specification
-Endpoint	Method	Description
-/documents/upload	POST	Upload a PDF
-/documents	GET	List all documents
-/documents/:id	GET	Download a file
-/documents/:id	DELETE	Delete a file
+## 🔗 3. API Specification
 
-📌 POST /documents/upload
-Request:
+| Endpoint                  | Method | Description               |
+|---------------------------|--------|---------------------------|
+| `/documents/upload`       | POST   | Upload a PDF              |
+| `/documents`              | GET    | List all uploaded files   |
+| `/documents/:id/view`     | GET    | View PDF in browser tab   |
+| `/documents/:id/download` | GET    | Download a PDF            |
+| `/documents/:id`          | DELETE | Delete a specific file    |
 
-http
-Copy
-Edit
-POST /documents/upload
-Content-Type: multipart/form-data
-Form-data:
-  file: sample.pdf
-Response:
-
-json
-Copy
-Edit
+### 📥 POST `/documents/upload`
+- Uploads a PDF using `multipart/form-data`
+- **Request:**
+  - Form key: `file`
+- **Response:**
+```json
 {
-  "message": "File uploaded successfully",
-  "document": {
-    "_id": "64f7cbbf234567890abc1234",
-    "filename": "sample.pdf",
-    "size": 34578,
-    "uploadDate": "2025-08-06T08:33:00Z"
-  }
+  "message": "✅ File uploaded successfully"
 }
-📌 GET /documents
-Request:
+📄 GET /documents
+Returns all uploaded document metadata
 
-http
-Copy
-Edit
-GET /documents
 Response:
-
-json
-Copy
-Edit
 [
   {
-    "_id": "64f7cbbf234567890abc1234",
-    "filename": "sample.pdf",
-    "size": 34578,
-    "uploadDate": "2025-08-06T08:33:00Z"
+    "_id": "64eb...",
+    "filename": "report.pdf",
+    "filesize": 123456,
+    "createdAt": "2025-08-06T10:00:00.000Z"
   }
 ]
-📌 GET /documents/:id
-Request:
+👁️ GET /documents/:id/view
+Opens PDF in a new browser tab
 
-http
-Copy
-Edit
-GET /documents/64f7cbbf234567890abc1234
+⬇️ GET /documents/:id/download
+Forces file download
+
+❌ DELETE /documents/:id
+Deletes file from both MongoDB and disk
+
 Response:
-Returns the PDF file for download or preview (based on frontend implementation).
+{ "message": "✅ Document deleted successfully" }
 
-📌 DELETE /documents/:id
-Request:
+🔄 4. Data Flow Description
+Q5. File Upload
+User selects and uploads a PDF from frontend.
 
-http
-Copy
-Edit
-DELETE /documents/64f7cbbf234567890abc1234
-Response:
+POST /documents/upload API is triggered.
 
-json
-Copy
-Edit
-{
-  "message": "File deleted successfully"
-}
-4. Data Flow Description
-Q5. What happens when a file is uploaded?
-User selects a file and submits the form.
+Backend uses multer to store file in backend/uploads/
 
-Frontend sends multipart/form-data to /documents/upload.
+Metadata (filename, path, size, timestamp) is stored in MongoDB Atlas.
 
-Backend uses multer to save file in /uploads.
+Success message is returned to frontend.
 
-Metadata (filename, size, date) is stored in MongoDB Atlas.
+File View / Download
+User clicks "View" or "Download" on the document.
 
-API responds with success message and document details.
+GET request is made to backend.
 
-Frontend updates the list via GET /documents.
+File is streamed directly from local disk to browser.
 
-What happens when a file is downloaded/viewed?
-User clicks “View” or “Download” on frontend.
+File Delete
+User clicks "Delete".
 
-Frontend triggers a GET request to /documents/:id.
+DELETE /documents/:id removes entry from MongoDB and deletes local file.
 
-Backend fetches file path and streams it as a response.
+📎 5. Assumptions
+Q6. Assumptions Made
+Only PDF files are allowed (validated on backend).
 
-File opens in new tab (for View) or downloads (for Download).
+Max file size is ~5MB (configurable via multer).
 
-5. Assumptions
-Q6. Assumptions made
-File type is limited to PDF.
+No user authentication — one user assumed (as per problem).
 
-File size is capped at 5MB using multer limits.
+No concurrency issues expected due to single-user mode.
 
-No user authentication (open system for test/demo).
+Filenames may repeat; actual saved name uses timestamp prefix.
 
-Only basic concurrency handling using Node’s async I/O.
+✅ Final Notes
+Backend uses .env to store sensitive configs (not committed)
 
-File names can repeat — stored uniquely on disk by multer.
+uploads/ folder is ignored using .gitignore
+
+Fully working locally on localhost:5002 for backend, 5173 for frontend (Vite)
+
+---
+
+### 📌 Instructions to Add It to GitHub
+
+1. Open your terminal in project root:
+```bash
+cd ~/Desktop/Patient-portal
+
+2. Create the file:
+touch design.md
+
+3. Open in VS Code or any editor, and paste the above content.
+4. Save and commit it:
+git add design.md
+git commit -m "Added design.md documentation"
+git push
+
