@@ -1,3 +1,8 @@
+Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Document Portal** — ready to copy-paste directly into your GitHub repo.
+
+---
+
+```markdown
 # 🏥 Patient Document Portal – Design Document
 
 ---
@@ -30,18 +35,17 @@
 
 ### System Flow (Text Diagram):
 
-[User Browser]
+```
+
+\[User Browser]
 ↓
-[React Frontend (Vite)]
+\[React Frontend (Vite)]
 ↓ API calls
-[Express Backend (Node.js)]
-↓ ↓
-[MongoDB Atlas] [Local File Storage (/uploads)]
+\[Express Backend (Node.js)]
+↓             ↓
+\[MongoDB Atlas]   \[Local File Storage (/uploads)]
 
-markdown
-Copy
-Edit
-
+````
 
 ### Flow Summary:
 - Frontend handles file upload and viewing
@@ -69,10 +73,16 @@ Edit
 {
   "message": "✅ File uploaded successfully"
 }
-📄 GET /documents
-Returns all uploaded document metadata
+````
 
-Response:
+---
+
+### 📄 GET `/documents`
+
+* Returns all uploaded document metadata
+* **Response:**
+
+```json
 [
   {
     "_id": "64eb...",
@@ -81,60 +91,77 @@ Response:
     "createdAt": "2025-08-06T10:00:00.000Z"
   }
 ]
-👁️ GET /documents/:id/view
-Opens PDF in a new browser tab
+```
 
-⬇️ GET /documents/:id/download
-Forces file download
+---
 
-❌ DELETE /documents/:id
-Deletes file from both MongoDB and disk
+### 👁️ GET `/documents/:id/view`
 
-Response:
+* Opens PDF in a new browser tab
+
+---
+
+### ⬇️ GET `/documents/:id/download`
+
+* Forces file download
+
+---
+
+### ❌ DELETE `/documents/:id`
+
+* Deletes file from both MongoDB and disk
+* **Response:**
+
+```json
 { "message": "✅ Document deleted successfully" }
+```
 
-🔄 4. Data Flow Description
-Q5. File Upload
-User selects and uploads a PDF from frontend.
+---
 
-POST /documents/upload API is triggered.
+## 🔄 4. Data Flow Description
 
-Backend uses multer to store file in backend/uploads/
+### Q5. File Upload
 
-Metadata (filename, path, size, timestamp) is stored in MongoDB Atlas.
+1. User selects and uploads a PDF from frontend.
+2. `POST /documents/upload` API is triggered.
+3. Backend uses `multer` to store file in `backend/uploads/`
+4. Metadata (filename, path, size, timestamp) is stored in MongoDB Atlas.
+5. Success message is returned to frontend.
 
-Success message is returned to frontend.
+### File View / Download
 
-File View / Download
-User clicks "View" or "Download" on the document.
+1. User clicks "View" or "Download" on the document.
+2. GET request is made to backend.
+3. File is streamed directly from local disk to browser.
 
-GET request is made to backend.
+### File Delete
 
-File is streamed directly from local disk to browser.
+1. User clicks "Delete".
+2. `DELETE /documents/:id` removes entry from MongoDB and deletes local file.
 
-File Delete
-User clicks "Delete".
+---
 
-DELETE /documents/:id removes entry from MongoDB and deletes local file.
+## 📎 5. Assumptions
 
-📎 5. Assumptions
-Q6. Assumptions Made
-Only PDF files are allowed (validated on backend).
+### Q6. Assumptions Made
 
-Max file size is ~5MB (configurable via multer).
+* Only **PDF** files are allowed (validated on backend).
+* Max file size is **\~5MB** (configurable via multer).
+* No user authentication — one user assumed (as per problem).
+* No concurrency issues expected due to single-user mode.
+* Filenames may repeat; actual saved name uses timestamp prefix.
 
-No user authentication — one user assumed (as per problem).
+---
 
-No concurrency issues expected due to single-user mode.
+## ✅ Final Notes
 
-Filenames may repeat; actual saved name uses timestamp prefix.
+* Backend uses `.env` to store sensitive configs (not committed)
+* `uploads/` folder is ignored using `.gitignore`
+* Fully working locally on `localhost:5002` for backend, `5173` for frontend (Vite)
 
-✅ Final Notes
-Backend uses .env to store sensitive configs (not committed)
+---
 
-uploads/ folder is ignored using .gitignore
-
-Fully working locally on localhost:5002 for backend, 5173 for frontend (Vite)
+````
 
 ---
 
@@ -143,13 +170,24 @@ Fully working locally on localhost:5002 for backend, 5173 for frontend (Vite)
 1. Open your terminal in project root:
 ```bash
 cd ~/Desktop/Patient-portal
+````
 
 2. Create the file:
-touch design.md
 
-3. Open in VS Code or any editor, and paste the above content.
+```bash
+touch design.md
+```
+
+3. Open in VS Code or any editor, and **paste** the above content.
+
 4. Save and commit it:
+
+```bash
 git add design.md
 git commit -m "Added design.md documentation"
 git push
+```
 
+✅ Done!
+
+Let me know if you want a **PDF version** too, or a `README.md` template for your repo homepage.
