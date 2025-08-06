@@ -1,5 +1,3 @@
-Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Document Portal** — ready to copy-paste directly into your GitHub repo.
-
 # 🏥 Patient Document Portal – Design Document
 
 ---
