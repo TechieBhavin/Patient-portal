@@ -1,0 +1,23 @@
+/* App.css */
+body, html, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.center-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.center-card {
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: white;
+  padding: 40px 30px;
+}
