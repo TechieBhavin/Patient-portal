@@ -1,10 +1,3 @@
-Absolutely Bhavin! Based on the original **PDF assessment you uploaded**, and your **completed full-stack implementation**, here is a clean, structured, and professional `README.md` file for your GitHub repository.
-
-You can copy and paste this directly into your root directory as `README.md` 👇
-
----
-
-```markdown
 # 🏥 Patient Document Portal
 
 A full-stack application built as part of the **Full Stack Developer Intern Assessment**, allowing users to upload, view, download, and delete medical PDF documents.
@@ -44,6 +37,8 @@ A healthcare platform needs a **Patient Portal** where users can:
 ---
 
 ## 📂 Folder Structure
+
+
 
 ```
 
