@@ -192,12 +192,6 @@ LinkedIn: [linkedin.com/in/techiebhavin](https://linkedin.com/in/techiebhavin)
 
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
 ````
 
 ---
