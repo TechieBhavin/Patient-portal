@@ -33,11 +33,11 @@ Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Docume
 ### System Flow (Text Diagram):
 
 [User Browser]
-↓
+->
 [React Frontend (Vite)]
-↓ API calls
+-> API calls
 [Express Backend (Node.js)]
-↓ ↓
+-> ->
 [MongoDB Atlas] [Local File Storage (/uploads)]
 
 
