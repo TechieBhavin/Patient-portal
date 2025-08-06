@@ -2,7 +2,6 @@ Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Docume
 
 ---
 
-```markdown
 # 🏥 Patient Document Portal – Design Document
 
 ---
@@ -34,8 +33,6 @@ Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Docume
 ## 🗂️ 2. Architecture Overview
 
 ### System Flow (Text Diagram):
-
-```
 
 \[User Browser]
 ↓
