@@ -40,7 +40,6 @@ Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Docume
 ↓ ↓
 [MongoDB Atlas] [Local File Storage (/uploads)]
 
-````
 
 ### Flow Summary:
 - Frontend handles file upload and viewing
