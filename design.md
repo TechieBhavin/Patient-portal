@@ -1,7 +1,5 @@
 Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Document Portal** — ready to copy-paste directly into your GitHub repo.
 
----
-
 # 🏥 Patient Document Portal – Design Document
 
 ---
@@ -34,13 +32,13 @@ Absolutely, Bhavin! Below is your **final `design.md`** for the **Patient Docume
 
 ### System Flow (Text Diagram):
 
-\[User Browser]
+[User Browser]
 ↓
-\[React Frontend (Vite)]
+[React Frontend (Vite)]
 ↓ API calls
-\[Express Backend (Node.js)]
-↓             ↓
-\[MongoDB Atlas]   \[Local File Storage (/uploads)]
+[Express Backend (Node.js)]
+↓ ↓
+[MongoDB Atlas] [Local File Storage (/uploads)]
 
 ````
 
